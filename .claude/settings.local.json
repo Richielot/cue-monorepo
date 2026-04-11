@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm add:*)",
+      "Bash(brew list:*)",
+      "Read(//Applications/Docker.app/**)",
+      "Read(//usr/local/bin/**)",
+      "Read(//Users/richeliot/.docker/bin/**)",
+      "Bash(/Applications/Docker.app/Contents/Resources/bin/docker --version)",
+      "Bash(/Applications/Docker.app/Contents/Resources/bin/docker compose:*)",
+      "Bash(make dev:*)",
+      "Bash(sudo ln:*)",
+      "Bash(docker --version)",
+      "Bash(mkdir -p ~/bin)",
+      "Bash(ln -sf /Applications/Docker.app/Contents/Resources/bin/docker ~/bin/docker)",
+      "Bash(ln -sf /Applications/Docker.app/Contents/Resources/bin/docker-credential-desktop ~/bin/docker-credential-desktop)",
+      "Bash(ln -sf /Applications/Docker.app/Contents/Resources/bin/docker-credential-osxkeychain ~/bin/docker-credential-osxkeychain)",
+      "Bash(export PATH=\"/Applications/Docker.app/Contents/Resources/bin:$PATH\")",
+      "Bash(docker compose:*)"
+    ]
+  }
+}
