@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { db, eq, users } from "@cue/db";
 import Link from "next/link";
@@ -73,7 +74,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-8">
-      {/* Welcome section */}
+      {/* Welcome section - render immediately */}
       <div className="relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-gray-200/60">
         {/* Subtle background accents */}
         <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-100/40 blur-3xl" />
@@ -92,92 +93,136 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Stat cards */}
-      <div>
-        <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-          Overview
-        </p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="group rounded-xl border border-gray-200/80 bg-white p-6 shadow-sm transition-all duration-200 hover:border-gray-300 hover:shadow-md"
-            >
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-gray-500">{stat.label}</p>
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${stat.color}`}>
-                  {stat.icon}
-                </div>
-              </div>
-              <p className="mt-3 text-3xl font-bold text-gray-900">{stat.value}</p>
-              <p className="mt-1 text-xs text-gray-400">No data yet</p>
+      {/* Stat cards - with Suspense for streaming */}
+      <Suspense
+        fallback={
+          <div>
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Overview
+            </p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-24 animate-pulse rounded-xl bg-gray-100"
+                />
+              ))}
             </div>
-          ))}
+          </div>
+        }
+      >
+        <div>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+            Overview
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="group rounded-xl border border-gray-200/80 bg-white p-6 shadow-sm transition-all duration-200 hover:border-gray-300 hover:shadow-md"
+              >
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-gray-500">{stat.label}</p>
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${stat.color}`}>
+                    {stat.icon}
+                  </div>
+                </div>
+                <p className="mt-3 text-3xl font-bold text-gray-900">{stat.value}</p>
+                <p className="mt-1 text-xs text-gray-400">No data yet</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </Suspense>
 
       {/* Quick actions */}
-      <div>
-        <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-          Quick actions
-        </p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {quickActions.map((action) => (
-            <Link
-              key={action.title}
-              href={action.href}
-              className={`group rounded-xl border border-gray-200/80 border-l-[3px] ${action.color} bg-white p-5 shadow-sm transition-all duration-200 hover:border-gray-300 hover:shadow-md`}
-            >
-              <h3 className="text-sm font-semibold text-gray-900">{action.title}</h3>
-              <p className="mt-1 text-xs text-gray-500">{action.description}</p>
-              <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-blue-600">
-                Get started
-                <svg className="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </span>
-            </Link>
-          ))}
+      <Suspense
+        fallback={
+          <div>
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Quick actions
+            </p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="h-20 animate-pulse rounded-xl bg-gray-100" />
+              ))}
+            </div>
+          </div>
+        }
+      >
+        <div>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+            Quick actions
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {quickActions.map((action) => (
+              <Link
+                key={action.title}
+                href={action.href}
+                className={`group rounded-xl border border-gray-200/80 border-l-[3px] ${action.color} bg-white p-5 shadow-sm transition-all duration-200 hover:border-gray-300 hover:shadow-md`}
+              >
+                <h3 className="text-sm font-semibold text-gray-900">{action.title}</h3>
+                <p className="mt-1 text-xs text-gray-500">{action.description}</p>
+                <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-blue-600">
+                  Get started
+                  <svg className="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      </Suspense>
 
       {/* Getting started */}
-      <div>
-        <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-          Getting started
-        </p>
-        <div className="rounded-xl border border-gray-200/80 bg-white shadow-sm">
-          {[
-            { step: 1, title: "Create your workspace", done: true },
-            { step: 2, title: "Invite your team", done: false },
-            { step: 3, title: "Ship with confidence", done: false },
-          ].map((item, i) => (
-            <div
-              key={item.step}
-              className={`flex items-center gap-4 px-6 py-4 ${i < 2 ? "border-b border-gray-100" : ""}`}
-            >
+      <Suspense
+        fallback={
+          <div>
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Getting started
+            </p>
+            <div className="h-40 animate-pulse rounded-xl bg-gray-100" />
+          </div>
+        }
+      >
+        <div>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+            Getting started
+          </p>
+          <div className="rounded-xl border border-gray-200/80 bg-white shadow-sm">
+            {[
+              { step: 1, title: "Create your workspace", done: true },
+              { step: 2, title: "Invite your team", done: false },
+              { step: 3, title: "Ship with confidence", done: false },
+            ].map((item, i) => (
               <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
-                  item.done
-                    ? "bg-emerald-100 text-emerald-700"
-                    : "bg-gray-100 text-gray-400"
-                }`}
+                key={item.step}
+                className={`flex items-center gap-4 px-6 py-4 ${i < 2 ? "border-b border-gray-100" : ""}`}
               >
-                {item.done ? (
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                ) : (
-                  item.step
-                )}
+                <div
+                  className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
+                    item.done
+                      ? "bg-emerald-100 text-emerald-700"
+                      : "bg-gray-100 text-gray-400"
+                  }`}
+                >
+                  {item.done ? (
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    item.step
+                  )}
+                </div>
+                <span className={`text-sm font-medium ${item.done ? "text-gray-400 line-through" : "text-gray-700"}`}>
+                  {item.title}
+                </span>
               </div>
-              <span className={`text-sm font-medium ${item.done ? "text-gray-400 line-through" : "text-gray-700"}`}>
-                {item.title}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      </Suspense>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { db, eq, users } from "@cue/db";
+import { db, eq, and, users } from "@cue/db";
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -35,12 +35,15 @@ export async function POST(request: Request) {
 
   const { email } = parsed.data;
 
-  // Check if user already exists in this tenant
-  const existingMembers = await db.query.users.findMany({
-    where: eq(users.tenantId, currentUser.tenantId),
+  // Check if user already exists in this tenant (optimized: single query instead of fetching all)
+  const existingMember = await db.query.users.findFirst({
+    where: and(
+      eq(users.tenantId, currentUser.tenantId),
+      eq(users.email, email)
+    ),
   });
 
-  if (existingMembers.some((m) => m.email === email)) {
+  if (existingMember) {
     return NextResponse.json(
       { error: "User is already a member" },
       { status: 409 },

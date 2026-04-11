@@ -4,6 +4,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent layout shift from scrollbar */
+  scrollbar-gutter: stable;
 }
 
 :root {
@@ -21,12 +23,25 @@ html {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Minimize CLS from font rendering */
+  font-display: swap;
 }
 
 /* Smooth anchor offset for fixed navbar */
 [id] {
   scroll-margin-top: 5rem;
+}
+
+/* Optimize image rendering */
+img {
+  display: block;
+}
+
+/* Prevent layout shift on form inputs */
+input,
+select,
+textarea {
+  font-family: inherit;
 }
