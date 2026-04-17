@@ -47,7 +47,7 @@ const plans = [
       "On-premise option",
     ],
     cta: "Contact sales",
-    href: "mailto:sales@guardis.eu",
+    href: "mailto:sales@guardis.pro",
     featured: false,
   },
 ];

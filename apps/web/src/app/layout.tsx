@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL ?? "https://guardis.eu";
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://guardis.pro";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
