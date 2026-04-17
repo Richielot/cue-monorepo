@@ -26,10 +26,12 @@ const Pricing = dynamic(() =>
   }
 );
 
-const CTA = dynamic(() =>
-  import("@/components/landing/cta").then((mod) => ({ default: mod.CTA })),
+const WaitlistSection = dynamic(() =>
+  import("@/components/landing/waitlist-section").then((mod) => ({
+    default: mod.WaitlistSection,
+  })),
   {
-    loading: () => <div className="h-40 bg-white" />,
+    loading: () => <div className="h-[600px] bg-gray-900" />,
   }
 );
 
@@ -56,8 +58,8 @@ export default function Home() {
         <Suspense fallback={<div className="h-96 bg-white" />}>
           <Pricing />
         </Suspense>
-        <Suspense fallback={<div className="h-40 bg-white" />}>
-          <CTA />
+        <Suspense fallback={<div className="h-[600px] bg-gray-900" />}>
+          <WaitlistSection />
         </Suspense>
       </main>
       <Suspense fallback={<div className="h-32 bg-gray-900" />}>

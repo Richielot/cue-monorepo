@@ -12,8 +12,8 @@ const plans = [
       "Community support",
       "1 GB storage",
     ],
-    cta: "Start for free",
-    href: "/signup",
+    cta: "Join waitlist",
+    href: "#waitlist",
     featured: false,
   },
   {
@@ -29,8 +29,8 @@ const plans = [
       "Custom branding",
       "API access",
     ],
-    cta: "Start free trial",
-    href: "/signup?plan=pro",
+    cta: "Join waitlist",
+    href: "#waitlist",
     featured: true,
   },
   {
@@ -47,7 +47,7 @@ const plans = [
       "On-premise option",
     ],
     cta: "Contact sales",
-    href: "#",
+    href: "mailto:sales@guardis.eu",
     featured: false,
   },
 ];

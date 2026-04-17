@@ -6,3 +6,5 @@ export { HowItWorks } from "./how-it-works";
 export { Logos } from "./logos";
 export { Navbar } from "./navbar";
 export { Pricing } from "./pricing";
+export { WaitlistForm } from "./waitlist-form";
+export { WaitlistSection } from "./waitlist-section";

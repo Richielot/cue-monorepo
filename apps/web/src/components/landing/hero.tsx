@@ -16,32 +16,33 @@ export function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
           </span>
-          Now in public beta
+          Early access — NIS2 deadline Oct 2024 is already active
         </div>
 
         {/* Headline */}
         <h1 className="mx-auto max-w-4xl text-5xl font-bold leading-[1.1] tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
-          Everything your team needs,{" "}
+          NIS2 compliance,{" "}
           <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-            one workspace
+            without the consultants
           </span>
         </h1>
 
         {/* Subheadline */}
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-gray-600 sm:text-xl">
-          Cue brings your people, projects, and tools together. Multi-tenant
-          workspaces, real-time collaboration, and the integrations you already
-          use — no switching required.
+          GUARDIS helps CEE SMEs in Slovakia, Czechia, and Poland run NIS2
+          assessments, report incidents on time, and generate audit-ready
+          reports — in your language, hosted in the EU.
         </p>
 
         {/* CTAs */}
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
-            href="/signup"
+            href="#waitlist"
             className="group relative inline-flex items-center justify-center rounded-full bg-gray-900 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-gray-900/20 transition-all hover:bg-gray-800 hover:shadow-xl hover:shadow-gray-900/30"
           >
-            Get started for free
+            Join the waitlist
             <svg
+              aria-hidden="true"
               className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5"
               fill="none"
               stroke="currentColor"
